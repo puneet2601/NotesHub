@@ -1,0 +1,245 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block start %}
+<div class="container mt-5">
+    <!-- Note Detail Section -->
+    <div class="note-detail">
+        <h1>{{ note.title }}</h1>
+        <p><strong>Uploaded by</strong> {{ note.user.username }}</p>
+        
+        <div class="d-flex justify-content-start align-items-center">
+            <!-- Like Section -->
+            {% if activity and activity.liked == 1 %}
+                <img id="like-icon" src="{% static 'images/like_filled.svg' %}" alt="like" 
+                    width="24px" height="24px" style="cursor: pointer;" onclick="toggleLike()">
+            {% else %}
+                <img id="like-icon" src="{% static 'images/like.svg' %}" alt="like" 
+                    width="24px" height="24px" style="cursor: pointer;" onclick="toggleLike()">
+            {% endif %}
+
+            
+
+            <span id="like-count" class="ms-2 me-2">{{ note.upvotes }}</span> <!-- Like count -->
+            
+            {% if activity and activity.disliked == 1 %}
+            <img id="dislike-icon" src="{% static 'images/dislike_filled.svg' %}" alt="dislike" 
+                width="24px" height="24px" style="cursor: pointer;" onclick="toggleDislike()">
+            {% else %}
+                <img id="dislike-icon" src="{% static 'images/dislike.svg' %}" alt="dislike" 
+                    width="24px" height="24px" style="cursor: pointer;" onclick="toggleDislike()">
+            {% endif %}
+
+            <span id="dislike-count" class="ms-2 me-2">{{ note.downvotes }}</span> <!-- Dislike count -->
+
+            <!-- Bookmark Section -->
+            {% if activity and activity.bookmarked == 1 %}
+                <img id="bookmark-icon" src="{% static 'images/bookmark_filled.svg' %}" alt="bookmark" 
+                    width="24px" height="24px" style="cursor: pointer;" onclick="toggleBookmark()">
+            {% else %}
+                <img id="bookmark-icon" src="{% static 'images/bookmark.svg' %}" alt="bookmark" 
+                    width="24px" height="24px" style="cursor: pointer;" onclick="toggleBookmark()">
+            {% endif %}
+
+        </div>
+
+        <div class="mt-3">
+            <p>{{ note.description }}</p>
+        </div>
+
+        <!-- Buttons -->
+        <div class="mt-4">
+            <a href="{{ note.download_url }}" class="btn btn-primary" target="_blank"onclick="incrementDownloadCount(event)">Download Now</a>
+            <a href="{% url 'analytics' 'note' note.id %}" class="btn btn-info ms-2">Analytics</a>
+        </div>
+        
+        <!-- Preview Section -->
+        <div class="mt-5 mb-5">
+            <iframe src="{{ note.preview_url }}" width="100%" height="600" frameborder="0"></iframe>
+        </div>
+    </div>
+</div>
+
+<script>
+    let startTime = new Date().getTime(); // Record page load time
+
+    function sendTimeSpent() {
+        const endTime = new Date().getTime(); // Record exit time
+        const timeSpent = Math.round((endTime - startTime) / 1000); // Time in seconds
+
+        const noteId = {{ note.id }}; // Pass the note ID from Django to JavaScript
+
+        // Send the time spent to Django using Fetch API
+        navigator.sendBeacon('/track-time/', JSON.stringify({
+            note_id: noteId,
+            time_spent: timeSpent
+        }));
+    }
+
+    // Trigger the function when the user leaves the page
+    window.addEventListener('beforeunload', sendTimeSpent);
+    // function toggleLike() {
+    //     const likeIcon = document.getElementById('like-icon');
+    //     const likeCountElement = document.getElementById('like-count');
+    //     const currentSrc = likeIcon.src;
+        
+    //     const isLiked = currentSrc.includes('like_filled.svg');
+
+    //     fetch("{% url 'toggle_like' note.id %}", {
+    //         method: 'POST',
+    //         headers: {
+    //             'X-CSRFToken': '{{ csrf_token }}',
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({
+    //             'is_liked': !isLiked
+    //         })
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         if (data.success) {
+    //             if (isLiked) {
+    //                 likeIcon.src = "{% static 'images/like.svg' %}";
+    //                 likeCountElement.textContent = data.new_like_count;
+    //             } else {
+    //                 likeIcon.src = "{% static 'images/like_filled.svg' %}";
+    //                 likeCountElement.textContent = data.new_like_count;
+    //             }
+    //         }
+    //     })
+    //     .catch(error => console.error('Error:', error));
+    // }
+
+    function toggleLike() {
+    const likeIcon = document.getElementById('like-icon');
+    const likeCountElement = document.getElementById('like-count');
+    const dislikeIcon = document.getElementById('dislike-icon');
+    const dislikeCountElement = document.getElementById('dislike-count');
+    const currentSrc = likeIcon.src;
+
+    const isLiked = currentSrc.includes('like_filled.svg');
+
+    fetch("{% url 'toggle_like' note.id %}", {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            'is_liked': !isLiked
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            likeIcon.src = data.is_liked
+                ? "{% static 'images/like_filled.svg' %}"
+                : "{% static 'images/like.svg' %}";
+            likeCountElement.textContent = data.new_like_count;
+
+            if (data.dislike_updated) {
+                dislikeIcon.src = "{% static 'images/dislike.svg' %}";
+                dislikeCountElement.textContent = data.new_dislike_count;
+            }
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+    function toggleDislike() {
+    const dislikeIcon = document.getElementById('dislike-icon');
+    const dislikeCountElement = document.getElementById('dislike-count');
+    const likeIcon = document.getElementById('like-icon');
+    const likeCountElement = document.getElementById('like-count');
+    const currentSrc = dislikeIcon.src;
+
+    const isDisliked = currentSrc.includes('dislike_filled.svg');
+
+    fetch("{% url 'toggle_dislike' note.id %}", {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            'is_disliked': !isDisliked
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            dislikeIcon.src = data.is_disliked
+                ? "{% static 'images/dislike_filled.svg' %}"
+                : "{% static 'images/dislike.svg' %}";
+            dislikeCountElement.textContent = data.new_dislike_count;
+
+            if (data.like_updated) {
+                likeIcon.src = "{% static 'images/like.svg' %}";
+                likeCountElement.textContent = data.new_like_count;
+            }
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+    function toggleBookmark() {
+        const bookmarkIcon = document.getElementById('bookmark-icon');
+        const currentSrc = bookmarkIcon.src;
+        
+        const isBookmarked = currentSrc.includes('bookmark_filled.svg');
+
+        fetch("{% url 'toggle_bookmark' note.id %}", {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                'is_bookmarked': !isBookmarked
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                if (isBookmarked) {
+                    bookmarkIcon.src = "{% static 'images/bookmark.svg' %}";
+                } else {
+                    bookmarkIcon.src = "{% static 'images/bookmark_filled.svg' %}";
+                }
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    function incrementDownloadCount(event) {
+    event.preventDefault();  // Prevent the default action (navigation)
+
+    const noteId = {{ note.id }}; // Get the note ID dynamically from Django context
+
+    // Send AJAX request to update download count
+    fetch("{% url 'increment_download_count' note.id %}", {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            'note_id': noteId
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Optionally, you can update the download count in the frontend here
+            console.log("Download count updated successfully!");
+            window.location.href = event.target.href;  // Proceed with the download
+        } else {
+            console.error("Failed to update download count");
+        }
+    })
+    .catch(error => console.error("Error:", error));
+}
+
+</script>
+
+{% endblock %}
