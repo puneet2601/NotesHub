@@ -88,14 +88,11 @@ We welcome contributions to enhance NotesHub! To contribute:
 
 Ensure code adheres to PEP 8 standards and includes tests where applicable.
 
-## License
-This project is licensed under the MIT License. See the LICENSE file for details.
-
 ## Contact
 For questions or support, contact the maintainer:
 
 - GitHub: puneet2601
-- Email: puneet2601@example.com (replace with actual contact if available)
+- Email: 24M0757@iitb.ac.in
 
 
 Empowering IIT Bombay students with seamless access to academic resources.
