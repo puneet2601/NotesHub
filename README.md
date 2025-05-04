@@ -93,9 +93,9 @@ NotesHub/
 We welcome contributions to enhance NotesHub! To contribute:
 
 1. Fork the repository.
-2. Create a feature branch (<code style="background-color: #f0f0f0; padding: 2px 4px; border-radius: 3px;">git checkout -b feature/your-feature</code>).
-3. Commit your changes (<code style="background-color: #f0f0f0; padding: 2px 4px; border-radius: 3px;">git commit -m "Implement your feature"</code>).
-4. Push to the branch (<code style="background-color: #f0f0f0; padding: 2px 4px; border-radius: 3px;">git push origin feature/your-feature</code>).
+2. Create a feature branch (`git checkout -b feature/your-feature`).
+3. Commit your changes (`git commit -m "Implement your feature"`).
+4. Push to the branch (`git push origin feature/your-feature`).
 5. Submit a Pull Request on GitHub.
 
 Ensure code adheres to PEP 8 standards and includes tests where applicable.
