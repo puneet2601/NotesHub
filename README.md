@@ -36,34 +36,39 @@ To run NotesHub locally, follow these steps:
    cd NotesHub
 
 
-Create a Virtual Environment (Optional but recommended)
-python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+2. **Create a Virtual Environment** (Optional but recommended)
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 
 
-Install Dependencies
-pip install -r requirements.txt
+3. **Install Dependencies**
+   ```bash
+   pip install -r requirements.txt
 
 
-Apply Database Migrations
-python manage.py migrate
+4. **Apply Database Migrations**
+   ```bash
+   python manage.py migrate
 
 
-Launch the Development Server
-python manage.py runserver
+5. **Launch the Development Server**
+   ```bash
+   python manage.py runserver
 
 
-Access the PlatformVisit the following URL in your browser:
-http://127.0.0.1:8000/
+6. **Access the Platform** Visit the following URL in your browser:
+   ```bash
+   http://127.0.0.1:8000/
 
 
 
-Usage Guide
+## Usage Guide
 
-Explore Resources: Browse materials by course categories.
-Search Materials: Use the search bar to find specific resources.
-Upload Content: Authenticated users can upload notes or papers.
-Provide Feedback: Rate or comment to improve resource quality.
+* **Explore Resources**: Browse materials by course categories.
+* **Search Materials**: Use the search bar to find specific resources.
+* **Upload Content**: Authenticated users can upload notes or papers.
+* **Provide Feedback**: Rate or comment to improve resource quality.
 
 Project Structure
 NotesHub/
@@ -82,23 +87,25 @@ NotesHub/
 ├── requirements.txt      # Project dependencies
 └── README.md             # Project documentation
 
-Contributing
+## Contributing
 We welcome contributions to enhance NotesHub! To contribute:
 
-Fork the repository.
-Create a feature branch (git checkout -b feature/your-feature).
-Commit your changes (git commit -m "Implement your feature").
-Push to the branch (git push origin feature/your-feature).
-Submit a Pull Request on GitHub.
+1. Fork the repository.
+2. Create a feature branch (`git checkout -b feature/your-feature`).
+3. Commit your changes (`git commit -m "Implement your feature"`).
+4. Push to the branch (`git push origin feature/your-feature`).
+5. Submit a Pull Request on GitHub.
 
 Ensure code adheres to PEP 8 standards and includes tests where applicable.
-License
+
+## License
 This project is licensed under the MIT License. See the LICENSE file for details.
-Contact
+
+## Contact
 For questions or support, contact the maintainer:
 
-GitHub: puneet2601
-Email: puneet2601@example.com (replace with actual contact if available)
+- GitHub: puneet2601
+- Email: puneet2601@example.com (replace with actual contact if available)
 
 
 Empowering IIT Bombay students with seamless access to academic resources.```
