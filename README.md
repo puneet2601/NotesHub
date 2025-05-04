@@ -71,6 +71,7 @@ To run NotesHub locally, follow these steps:
 * **Provide Feedback**: Rate or comment to improve resource quality.
 
 Project Structure
+```
 NotesHub/
 ├── manage.py              # Django management script
 ├── NotesHub/             # Core project settings
@@ -86,6 +87,7 @@ NotesHub/
 │   └── urls.py           # App-specific URLs
 ├── requirements.txt      # Project dependencies
 └── README.md             # Project documentation
+```
 
 ## Contributing
 We welcome contributions to enhance NotesHub! To contribute:
@@ -108,4 +110,4 @@ For questions or support, contact the maintainer:
 - Email: puneet2601@example.com (replace with actual contact if available)
 
 
-Empowering IIT Bombay students with seamless access to academic resources.```
+Empowering IIT Bombay students with seamless access to academic resources.
