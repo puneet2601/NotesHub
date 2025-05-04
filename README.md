@@ -34,29 +34,19 @@ To run NotesHub locally, follow these steps:
    ```bash
    git clone https://github.com/puneet2601/NotesHub.git
    cd NotesHub
-
-
 2. **Create a Virtual Environment** (Optional but recommended)
    ```bash
    python -m venv .venv
    source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-
-
 3. **Install Dependencies**
    ```bash
    pip install -r requirements.txt
-
-
 4. **Apply Database Migrations**
    ```bash
    python manage.py migrate
-
-
 5. **Launch the Development Server**
    ```bash
    python manage.py runserver
-
-
 6. **Access the Platform** Visit the following URL in your browser:
    ```bash
    http://127.0.0.1:8000/
