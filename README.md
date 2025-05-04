@@ -50,9 +50,7 @@ To run NotesHub locally, follow these steps:
 6. **Access the Platform** Visit the following URL in your browser:
    ```bash
    http://127.0.0.1:8000/
-
-
-
+   
 ## Usage Guide
 
 * **Explore Resources**: Browse materials by course categories.
